@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Vikas Navik — Data Analyst Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --black:  #08080f;
+    --dark:   #10101a;
+    --card:   #13131f;
+    --border: #1e1e30;
+    --gold:   #c9a84c;
+    --gold-lt:#e8d48a;
+    --white:  #f0ece2;
+    --muted:  #8880a0;
+    --teal:   #1b6ca8;
+    --green:  #1a7a4a;
+    --coral:  #c0392b;
+    --green-lt:#27ae60;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black); color: var(--white);
+    font-family: 'DM Sans', sans-serif; font-weight: 300;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(8,8,15,0.9); backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--gold); letter-spacing: 0.05em; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.3s; }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; align-items: center;
+    padding: 8rem 3rem 4rem; position: relative; overflow: hidden;
+  }
+  .hero-gold-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--gold); }
+  .hero-bg-line {
+    position: absolute; right: 0; top: 0; bottom: 0; width: 42%;
+    background: linear-gradient(135deg, transparent 0%, rgba(201,168,76,0.03) 100%);
+    border-left: 1px solid var(--border);
+  }
+  .hero-content { max-width: 680px; position: relative; z-index: 1; }
+
+  .hero-eyebrow { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+  .hero-name { font-family: 'Playfair Display', serif; font-size: clamp(3.5rem, 8vw, 6.5rem); font-weight: 900; line-height: 1; color: var(--white); margin-bottom: 0.3rem; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
+  .hero-role { font-family: 'Playfair Display', serif; font-size: clamp(1.1rem, 2.5vw, 1.8rem); font-style: italic; color: var(--gold); margin-bottom: 0.6rem; opacity: 0; animation: fadeUp 0.8s 0.55s forwards; }
+  .hero-college { font-size: 0.82rem; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.8s 0.65s forwards; }
+  .hero-desc { font-size: 0.97rem; color: var(--muted); line-height: 1.85; max-width: 500px; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.8s 0.8s forwards; }
+
+  .hero-stats { display: flex; gap: 2.5rem; margin-bottom: 2.5rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 1.0s forwards; }
+  .stat-item { border-left: 2px solid var(--gold); padding-left: 1rem; }
+  .stat-val { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--white); font-weight: 700; }
+  .stat-label { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.1rem; }
+
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 1.2s forwards; }
+  .btn { padding: 0.82rem 1.8rem; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: all 0.3s; }
+  .btn-gold { background: var(--gold); color: var(--black); font-weight: 500; }
+  .btn-gold:hover { background: var(--gold-lt); transform: translateY(-2px); }
+  .btn-outline { border: 1px solid var(--border); color: var(--muted); }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+  .hero-right {
+    position: absolute; right: 3rem; top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 1.2rem; z-index: 1;
+    opacity: 0; animation: fadeLeft 0.8s 1.0s forwards;
+  }
+  .kpi-box { background: var(--card); border: 1px solid var(--border); padding: 1.1rem 1.5rem; min-width: 170px; text-align: center; position: relative; overflow: hidden; }
+  .kpi-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .kpi-box.teal::before  { background: var(--teal); }
+  .kpi-box.gold::before  { background: var(--gold); }
+  .kpi-box.green::before { background: var(--green-lt); }
+  .kpi-box.coral::before { background: var(--coral); }
+  .kpi-val { font-family: 'Playfair Display', serif; font-size: 1.75rem; font-weight: 700; color: var(--white); }
+  .kpi-label { font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.25rem; }
+
+  /* STATS BAR */
+  .stats-bar { background: var(--dark); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); position: relative; z-index: 1; }
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); max-width: 1100px; margin: 0 auto; }
+  .stat-block { padding: 2.5rem 2rem; text-align: center; border-right: 1px solid var(--border); transition: background 0.3s; }
+  .stat-block:last-child { border-right: none; }
+  .stat-block:hover { background: rgba(201,168,76,0.04); }
+  .stat-block .big { font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 900; color: var(--gold); line-height: 1; margin-bottom: 0.4rem; }
+  .stat-block .lbl { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; }
+
+  /* SECTIONS */
+  section { padding: 5.5rem 3rem; position: relative; z-index: 1; }
+  .max-w { max-width: 1100px; margin: 0 auto; }
+  .section-eyebrow { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.7rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 700; color: var(--white); margin-bottom: 0.4rem; }
+  .section-line { width: 50px; height: 3px; background: var(--gold); margin-bottom: 2.8rem; }
+
+  /* TASK CARDS */
+  .tasks-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.3rem; }
+  .task-card { background: var(--card); border: 1px solid var(--border); padding: 1.8rem; position: relative; overflow: hidden; transition: all 0.4s; }
+  .task-card:hover { border-color: var(--gold); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+  .task-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--gold); }
+  .task-num { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: var(--border); line-height: 1; margin-bottom: 0.4rem; transition: color 0.4s; }
+  .task-card:hover .task-num { color: rgba(201,168,76,0.12); }
+  .task-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--white); margin-bottom: 0.4rem; }
+  .task-days { font-size: 0.68rem; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.8rem; }
+  .task-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.2rem; }
+  .task-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem; }
+  .tag { font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.25rem 0.6rem; background: rgba(201,168,76,0.07); border: 1px solid rgba(201,168,76,0.2); color: var(--gold-lt); }
+  .badge-done { position: absolute; top: 1.1rem; right: 1.1rem; font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.55rem; background: rgba(26,122,74,0.15); border: 1px solid rgba(39,174,96,0.4); color: var(--green-lt); }
+  .task-link { font-size: 0.75rem; color: var(--gold); text-decoration: none; letter-spacing: 0.05em; border-bottom: 1px solid rgba(201,168,76,0.3); padding-bottom: 1px; transition: border-color 0.3s; }
+  .task-link:hover { border-color: var(--gold); }
+
+  /* FINDINGS */
+  .findings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.3rem; }
+  .finding-card { background: var(--card); border: 1px solid var(--border); padding: 1.8rem; position: relative; overflow: hidden; transition: all 0.3s; }
+  .finding-card:hover { border-color: rgba(201,168,76,0.4); }
+  .finding-card .accent { position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .finding-card .big-num { font-family: 'Playfair Display', serif; font-size: 2.3rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .finding-card h3 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--white); margin-bottom: 0.7rem; }
+  .finding-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.3rem; }
+  .skill-group { background: var(--card); border: 1px solid var(--border); padding: 1.6rem; transition: all 0.3s; }
+  .skill-group:hover { border-color: var(--gold); }
+  .skill-group-title { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--gold); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+  .skill-list { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+  .skill-list li { font-size: 0.84rem; color: var(--muted); display: flex; align-items: center; gap: 0.5rem; }
+  .skill-list li::before { content: '›'; color: var(--gold); font-size: 1rem; }
+
+  /* CONTACT */
+  .contact-row { display: flex; gap: 1.3rem; flex-wrap: wrap; margin-top: 2rem; }
+  .contact-card { flex: 1; min-width: 200px; background: var(--card); border: 1px solid var(--border); padding: 1.4rem 1.8rem; text-decoration: none; display: flex; align-items: center; gap: 1rem; transition: all 0.3s; }
+  .contact-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+  .contact-icon { font-size: 1.4rem; }
+  .contact-label { font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .contact-val { font-size: 0.9rem; color: var(--white); margin-top: 0.2rem; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); padding: 2rem 3rem; display: flex; align-items: center; justify-content: space-between; background: var(--dark); position: relative; z-index: 1; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--gold); }
+  .footer-note { font-size: 0.72rem; color: var(--muted); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeLeft { from { opacity: 0; transform: translate(24px, -50%); } to { opacity: 1; transform: translate(0, -50%); } }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s, transform 0.7s; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 7rem 1.5rem 3rem; }
+    .hero-right { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .findings-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Vikas Navik</div>
+  <ul class="nav-links">
+    <li><a href="#tasks">Tasks</a></li>
+    <li><a href="#findings">Findings</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-gold-bar"></div>
+  <div class="hero-bg-line"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">ApexPlanet Software · Data Analyst Internship</p>
+    <h1 class="hero-name">Vikas<br>Navik</h1>
+    <p class="hero-role">Data Analyst & Business Intelligence</p>
+    <p class="hero-college">St. John College of Humanities and Science</p>
+    <p class="hero-desc">
+      A complete, end-to-end data analytics internship portfolio — from raw data cleaning
+      to statistical hypothesis testing, business storytelling, and actionable insights.
+      Real dataset. Real numbers. Real impact.
+    </p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-val">5</div>
+        <div class="stat-label">Tasks Done</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val">9,994</div>
+        <div class="stat-label">Rows Analyzed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val">p≈0</div>
+        <div class="stat-label">Hypothesis Result</div>
+      </div>
+    </div>
+    <div class="hero-btns">
+      <a href="https://github.com/vikasnishad54vertfgcea" class="btn btn-gold" target="_blank">GitHub Profile</a>
+      <a href="https://www.linkedin.com/in/vikas-navik-a00029313" class="btn btn-outline" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="kpi-box teal"><div class="kpi-val">$2.30M</div><div class="kpi-label">Total Revenue</div></div>
+    <div class="kpi-box gold"><div class="kpi-val">$286K</div><div class="kpi-label">Total Profit</div></div>
+    <div class="kpi-box green"><div class="kpi-val">+51.4%</div><div class="kpi-label">Revenue Growth</div></div>
+    <div class="kpi-box coral"><div class="kpi-val">18.7%</div><div class="kpi-label">Loss Orders</div></div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-row">
+    <div class="stat-block"><div class="big">5</div><div class="lbl">Tasks Delivered</div></div>
+    <div class="stat-block"><div class="big">9,994</div><div class="lbl">Orders Analyzed</div></div>
+    <div class="stat-block"><div class="big">3</div><div class="lbl">Statistical Tests</div></div>
+    <div class="stat-block"><div class="big">$135K</div><div class="lbl">Losses Identified</div></div>
+  </div>
+</div>
+
+<!-- TASKS -->
+<section id="tasks">
+  <div class="max-w">
+    <p class="section-eyebrow reveal">Complete Internship Journey</p>
+    <h2 class="section-title reveal">All 5 Tasks</h2>
+    <div class="section-line reveal"></div>
+    <div class="tasks-grid">
+
+      <div class="task-card reveal">
+        <span class="badge-done">✓ Done</span>
+        <div class="task-num">01</div>
+        <div class="task-name">Data Collection & Preprocessing</div>
+        <div class="task-days">Days 1–4</div>
+        <div class="task-desc">Loaded and cleaned the Superstore dataset. Handled missing values, fixed data types, standardized formats — built the foundation for all analysis.</div>
+        <div class="task-tags"><span class="tag">Pandas</span><span class="tag">Data Cleaning</span><span class="tag">EDA</span><span class="tag">Python</span></div>
+        <a href="https://github.com/vikasnishad54vertfgcea/ApexPlanet-Task1" target="_blank" class="task-link">View Repository →</a>
+      </div>
+
+      <div class="task-card reveal">
+        <span class="badge-done">✓ Done</span>
+        <div class="task-num">02</div>
+        <div class="task-name">Exploratory Data Analysis</div>
+        <div class="task-days">Days 5–8</div>
+        <div class="task-desc">Deep EDA on sales, profit, discounts and regions. Uncovered patterns, outliers and key correlations across the Superstore dataset.</div>
+        <div class="task-tags"><span class="tag">Matplotlib</span><span class="tag">Seaborn</span><span class="tag">Statistics</span><span class="tag">Correlation</span></div>
+        <a href="https://github.com/vikasnishad54vertfgcea/ApexPLanet_Task2" target="_blank" class="task-link">View Repository →</a>
+      </div>
+
+      <div class="task-card reveal">
+        <span class="badge-done">✓ Done</span>
+        <div class="task-num">03</div>
+        <div class="task-name">Data Visualization & Dashboard</div>
+        <div class="task-days">Days 9–12</div>
+        <div class="task-desc">Built an interactive Power BI dashboard with slicers, drill-through, and stakeholder-ready visuals. Translated data into a business narrative.</div>
+        <div class="task-tags"><span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">Dashboards</span><span class="tag">BI</span></div>
+        <a href="https://github.com/vikasnishad54vertfgcea/superstore-sales-dashboard-powerbi" target="_blank" class="task-link">View Repository →</a>
+      </div>
+
+      <div class="task-card reveal">
+        <span class="badge-done">✓ Done</span>
+        <div class="task-num">04</div>
+        <div class="task-name">Data Storytelling & Statistical Validation</div>
+        <div class="task-days">Days 13–16</div>
+        <div class="task-desc">Proved with T-Test (p≈0) that discounts destroy profit. Built a 7-slide premium presentation and full Jupyter statistical analysis notebook.</div>
+        <div class="task-tags"><span class="tag">T-Test</span><span class="tag">Chi-Squared</span><span class="tag">95% CI</span><span class="tag">Jupyter</span><span class="tag">PPT</span></div>
+        <a href="https://github.com/vikasnishad54vertfgcea/Task_4-ApexPlanet-" target="_blank" class="task-link">View Repository →</a>
+      </div>
+
+      <div class="task-card reveal" style="border-color:rgba(201,168,76,0.25);">
+        <span class="badge-done">✓ Done</span>
+        <div class="task-num">05</div>
+        <div class="task-name">Capstone Integration & Portfolio</div>
+        <div class="task-days">Days 17–24</div>
+        <div class="task-desc">Consolidated all 5 tasks into this master portfolio. GitHub Pages website, master README, and LinkedIn final reflection — the complete picture.</div>
+        <div class="task-tags"><span class="tag">Portfolio</span><span class="tag">GitHub Pages</span><span class="tag">HTML/CSS</span><span class="tag">LinkedIn</span></div>
+        <a href="https://github.com/vikasnishad54vertfgcea" target="_blank" class="task-link">View Profile →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FINDINGS -->
+<section id="findings" style="background:var(--dark); border-top:1px solid var(--border);">
+  <div class="max-w">
+    <p class="section-eyebrow reveal">Task 4 Highlight</p>
+    <h2 class="section-title reveal">Key Findings — Real Superstore Data</h2>
+    <div class="section-line reveal"></div>
+    <div class="findings-grid">
+      <div class="finding-card reveal">
+        <div class="accent" style="background:var(--teal);"></div>
+        <div class="big-num" style="color:var(--gold);">$2.30M</div>
+        <h3>Total Revenue (2014–2017)</h3>
+        <p>Superstore generated $2.3M across 9,994 orders with 51.4% revenue growth. West region led with $725K. Technology had the best profit margin at 17.4%.</p>
+      </div>
+      <div class="finding-card reveal">
+        <div class="accent" style="background:var(--coral);"></div>
+        <div class="big-num" style="color:var(--coral);">-$6.66</div>
+        <h3>Avg Profit on Discounted Orders</h3>
+        <p>Orders with discounts averaged -$6.66 profit vs $66.90 for non-discounted orders. High discounts (>20%) alone generated $135,376 in total losses.</p>
+      </div>
+      <div class="finding-card reveal">
+        <div class="accent" style="background:var(--green-lt);"></div>
+        <div class="big-num" style="color:var(--green-lt);">p≈0.000</div>
+        <h3>Hypothesis Test — Reject H₀</h3>
+        <p>Welch T-Test confirmed discounts significantly reduce profit at 99.99% confidence. 95% Confidence Interval: [$64.40, $82.72] entirely above zero.</p>
+      </div>
+      <div class="finding-card reveal">
+        <div class="accent" style="background:var(--gold);"></div>
+        <div class="big-num" style="color:var(--gold);">18.7%</div>
+        <h3>Orders Running at a Loss</h3>
+        <p>Nearly 1 in 5 orders operated at a loss — directly linked to aggressive discounting. Capping discounts at 20% would eliminate most loss-making orders.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="max-w">
+    <p class="section-eyebrow reveal">What I Learned</p>
+    <h2 class="section-title reveal">Technical Skills</h2>
+    <div class="section-line reveal"></div>
+    <div class="skills-grid">
+      <div class="skill-group reveal">
+        <div class="skill-group-title">🐍 Python & Libraries</div>
+        <ul class="skill-list">
+          <li>Pandas — Data wrangling & aggregation</li>
+          <li>NumPy — Numerical computation</li>
+          <li>Matplotlib — Custom visualizations</li>
+          <li>SciPy — Statistical testing</li>
+          <li>Seaborn — Statistical plots</li>
+        </ul>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">📊 Statistics</div>
+        <ul class="skill-list">
+          <li>Welch T-Test (independent samples)</li>
+          <li>Chi-Squared Test (proportions)</li>
+          <li>95% Confidence Intervals</li>
+          <li>Cohen's d (effect size)</li>
+          <li>Descriptive & inferential stats</li>
+        </ul>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">🎨 BI & Storytelling</div>
+        <ul class="skill-list">
+          <li>Power BI dashboards & DAX</li>
+          <li>Business narrative building</li>
+          <li>Executive presentation design</li>
+          <li>Data-to-insight translation</li>
+          <li>Jupyter Notebook documentation</li>
+        </ul>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">🛠️ Tools</div>
+        <ul class="skill-list">
+          <li>Jupyter Notebook</li>
+          <li>Git & GitHub</li>
+          <li>GitHub Pages</li>
+          <li>Power BI Desktop</li>
+          <li>VS Code</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="background:var(--dark); border-top:1px solid var(--border);">
+  <div class="max-w">
+    <p class="section-eyebrow reveal">Let's Talk</p>
+    <h2 class="section-title reveal">Connect With Me</h2>
+    <div class="section-line reveal"></div>
+    <p class="reveal" style="color:var(--muted); font-size:0.97rem; max-width:480px; line-height:1.8;">
+      Open to data analyst roles, internships and collaborations.<br>
+      Let the data do the talking.
+    </p>
+    <div class="contact-row">
+      <a href="https://github.com/vikasnishad54vertfgcea" target="_blank" class="contact-card reveal">
+        <span class="contact-icon">🐙</span>
+        <div>
+          <div class="contact-label">GitHub</div>
+          <div class="contact-val">vikasnishad54vertfgcea</div>
+        </div>
+      </a>
+      <a href="https://www.linkedin.com/in/vikas-navik-a00029313" target="_blank" class="contact-card reveal">
+        <span class="contact-icon">💼</span>
+        <div>
+          <div class="contact-label">LinkedIn</div>
+          <div class="contact-val">vikas-navik-a00029313</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">Vikas Navik</div>
+  <div class="footer-note">St. John College of Humanities and Science · ApexPlanet Internship · Task 5</div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 70);
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
